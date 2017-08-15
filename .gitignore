@@ -1,0 +1,47 @@
+.idea/
+*.iml
+# See http://help.github.com/ignore-files/ for more about ignoring files.
+
+
+# compiled output
+/dist
+/tmp
+/out-tsc
+
+# dependencies
+webUI/node_modules
+
+# IDEs and editors
+/.idea
+webUI/.project
+webUI/.classpath
+webUI/.c9/
+webUI/*.launch
+.settings/
+webUI/*.sublime-workspace
+
+# IDE - VSCode
+.vscode/*
+webUI/!.vscode/settings.json
+webUI/!.vscode/tasks.json
+webUI/!.vscode/launch.json
+webUI/!.vscode/extensions.json
+
+# misc
+/.sass-cache
+/connect.lock
+/coverage
+/libpeerconnection.log
+webUI/npm-debug.log
+testem.log
+/typings
+yarn-error.log
+
+# e2e
+/e2e/*.js
+/e2e/*.map
+
+# System Files
+.DS_Store
+Thumbs.db
+
