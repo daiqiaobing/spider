@@ -5,7 +5,7 @@ import 'rxjs/add/operator/toPromise';
 
 @Injectable()
 export class GundamService {
-  private api = 'http://localhost:4000'; // 服务器地址
+  private api = ''; // 服务器地址
   private gundamList = '/gundamlist';  // 获取全部
   private getGundam = '/detail';
   constructor(private http: Http) {};

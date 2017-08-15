@@ -17,19 +17,24 @@ import { AppRoutingModule } from './app-routing.module';
 
 import { HttpModule } from '@angular/http';
 import { GundamService } from './service/gundam.service';
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {LoginComponent} from "./component/login/login.component";
 
 @NgModule({
   imports: [
     BrowserModule,
     FormsModule,
     AppRoutingModule,
-    HttpModule
+    HttpModule,
+    AppRoutingModule,
+    BrowserAnimationsModule
   ],
   declarations: [
     AppComponent,
     GundamDetailComponent,
     GundamHostComponent,
-    GundamHostItemComponent
+    GundamHostItemComponent,
+    LoginComponent
   ],
   providers: [GundamService],
   bootstrap: [AppComponent],

@@ -13,8 +13,8 @@ import { GundamService } from '../../service/gundam.service';
 import 'rxjs/add/operator/switchMap';
 
 @Component({
-  templateUrl: './html/gundam-detail.component.html',
-  styleUrls: ['./html/gundam-detail.component.scss']
+  templateUrl: './gundam-detail.component.html',
+  styleUrls: ['./gundam-detail.component.scss']
 })
 
 export class GundamDetailComponent implements OnInit {

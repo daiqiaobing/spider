@@ -4,7 +4,7 @@ import {
 
 @Component({
   selector: 'app-root',
-  templateUrl: './html/app.component.html'
+  templateUrl: './app.component.html'
 })
 
 export class AppComponent {

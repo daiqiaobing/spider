@@ -6,7 +6,7 @@ import { GundamService } from '../../service/gundam.service';
 import { Gundam } from '../../model/gundam';
 
 @Component({
-  templateUrl: './html/gundam-host.component.html',
+  templateUrl: './gundam-host.component.html',
 })
 
 export class GundamHostComponent implements OnInit {
