@@ -1,42 +1,43 @@
-import {
-  NgModule
-} from '@angular/core';
-import {
-  BrowserModule
-} from '@angular/platform-browser';
-import {
-  FormsModule
-} from '@angular/forms';
-import {
-  AppComponent
-} from './component/appcomponent/app.component';
-import { GundamDetailComponent } from './component/detail/gundam-detail.component';
-import { GundamHostComponent } from './component/host/gundam-host.component';
-import { GundamHostItemComponent } from './component/host-item/gundam-host-item.component';
-import { AppRoutingModule } from './app-routing.module';
+import { NgModule }       from '@angular/core';
+import { BrowserModule }  from '@angular/platform-browser';
+import { FormsModule }    from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { HttpModule } from '@angular/http';
-import { GundamService } from './service/gundam.service';
-import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
-import {LoginComponent} from "./component/login/login.component";
+import { Router } from '@angular/router';
+
+import { AppComponent }            from './app.component';
+import { AppRoutingModule }        from './app-routing.module';
+
+import { ComposeMessageComponent } from './component/message/compose-message.component';
+import { LoginRoutingModule }      from './login-routing.module';
+import { LoginComponent }          from './component/login/login.component';
+import { PageNotFoundComponent }   from './component/common/not-found.component';
+import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
+
 
 @NgModule({
   imports: [
     BrowserModule,
     FormsModule,
+    LoginRoutingModule,
     AppRoutingModule,
-    HttpModule,
-    AppRoutingModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    NgbModule.forRoot(),
   ],
   declarations: [
     AppComponent,
-    GundamDetailComponent,
-    GundamHostComponent,
-    GundamHostItemComponent,
-    LoginComponent
+    ComposeMessageComponent,
+    LoginComponent,
+    PageNotFoundComponent,
   ],
-  providers: [GundamService],
-  bootstrap: [AppComponent],
+  providers: [
+  ],
+  bootstrap: [ AppComponent ]
 })
-export class AppModule {}
+
+export class AppModule {
+  // Diagnostic only: inspect router configuration
+  constructor(router: Router) {
+    console.log('Routes: ', JSON.stringify(router.config, undefined, 2));
+  }
+}

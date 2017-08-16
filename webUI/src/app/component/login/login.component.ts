@@ -1,42 +1,44 @@
-import { Component }   from '@angular/core';
-import { Router }      from '@angular/router';
-import {AuthService} from "../../service/auth.service";
+import { Component }        from '@angular/core';
+import { Router,
+         NavigationExtras } from '@angular/router';
+import { AuthService }      from '../../service/auth.service';
+import {isBoolean} from "util";
 
 @Component({
-  template: `
-    <h2>LOGIN</h2>
-    <p>{{message}}</p>
-    <p>
-      <button (click)="login()"  *ngIf="!authService.isLoggedIn">Login</button>
-      <button (click)="logout()" *ngIf="authService.isLoggedIn">Logout</button>
-    </p>`
+  templateUrl: './login.component.html',
+  styleUrls: ['/login.component.scss']
 })
 export class LoginComponent {
+  model: any = {}
   message: string;
+  welcomeMsg:string = "Enter your username and password to login:";
 
   constructor(public authService: AuthService, public router: Router) {
     this.setMessage();
   }
 
   setMessage() {
-    this.message = 'Logged ' + (this.authService.isLoggedIn ? 'in' : 'out');
+    this.message = '';
   }
 
   login() {
-    this.message = 'Trying to log in ...';
+    this.welcomeMsg = ''
+    this.message = '正在登陆中...........';
+    this.authService.login(this.model.username, this.model.password);
+    if(this.authService.isLoggedIn){
+         let redirect = this.authService.redirectUrl ? this.authService.redirectUrl : '/';
+          let navigationExtras: NavigationExtras = {
+          queryParamsHandling: 'preserve',
+          preserveFragment: true
+        };
 
-    this.authService.login().subscribe(() => {
-      this.setMessage();
-      if (this.authService.isLoggedIn) {
-        // Get the redirect URL from our auth service
-        // If no redirect has been set, use the default
-        let redirect = this.authService.redirectUrl ? this.authService.redirectUrl : '/crisis-center/admin';
-
-        // Redirect the user
-        this.router.navigate([redirect]);
-      }
-    });
-  }
+        this.message = redirect;
+        this.router.navigate([redirect], navigationExtras);
+         this.message = "Success login!";
+    }else{
+          this.welcomeMsg = "Enter your username and password to login:";
+    }
+   }
 
   logout() {
     this.authService.logout();

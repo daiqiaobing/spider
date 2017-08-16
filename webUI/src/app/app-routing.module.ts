@@ -1,31 +1,35 @@
-import {
-  NgModule
-} from '@angular/core';
-import { RouterModule, Route }   from '@angular/router';
-import { GundamDetailComponent } from './component/detail/gundam-detail.component';
-import { GundamHostComponent } from './component/host/gundam-host.component';
-import {AuthGuard} from "./service/auth-guard.service";
-import {LoginComponent} from "./component/login/login.component";
+import { NgModule }             from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { PageNotFoundComponent }    from './component/common/not-found.component';
+import { CanDeactivateGuard }       from './service/can-deactivate-guard.service';
+import { AuthGuard }                from './service/auth-guard.service';
 
-const routes: Route[] = [
-    {
-      path: 'home',
-      component: GundamHostComponent,
-      canActivate: [AuthGuard],
-      children: [
-        { path: '' , component: GundamDetailComponent}
-      ]
-    },
-  { path: 'login', component: LoginComponent }
+const appRoutes: Routes = [
+  {
+    path: 'home',
+    loadChildren: 'app/component/common/home.module#HomeModule',
+    canLoad: [AuthGuard],
+  },
+  { path: '',   redirectTo: '/home', pathMatch: 'full' },
+  { path: '**', component: PageNotFoundComponent }
 ];
+
+
 
 @NgModule({
   imports: [
-    RouterModule.forRoot(routes)
+    RouterModule.forRoot(
+      appRoutes,
+      {
+        enableTracing: true, // <-- debugging purposes only
+      }
+    )
   ],
-  exports: [RouterModule]
-  })
-
-export class AppRoutingModule {
-
-}
+  exports: [
+    RouterModule
+  ],
+  providers: [
+    CanDeactivateGuard,
+  ]
+})
+export class AppRoutingModule { }
