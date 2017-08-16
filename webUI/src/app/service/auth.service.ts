@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/observable/of';
+ import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/delay';
 
@@ -13,7 +12,7 @@ export class AuthService {
   redirectUrl: string;
 
   login(username:string, password:string): boolean {
-    if(username == "admin"||password == "admin"){
+    if(username == "admin"&&password == "admin"){
        this.isLoggedIn = true;
        return true;
     }else {
