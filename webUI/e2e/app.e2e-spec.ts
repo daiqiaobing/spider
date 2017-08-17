@@ -1,14 +1,14 @@
-import { AppPage } from './app.po';
+import { CcPage } from './app.po';
 
-describe('web-ui App', () => {
-  let page: AppPage;
+describe('cc App', () => {
+  let page: CcPage;
 
   beforeEach(() => {
-    page = new AppPage();
+    page = new CcPage();
   });
 
-  it('should display welcome message', () => {
+  it('should display message saying app works', () => {
     page.navigateTo();
-    expect(page.getParagraphText()).toEqual('Welcome to app!');
+    expect(page.getParagraphText()).toEqual('app works!');
   });
 });

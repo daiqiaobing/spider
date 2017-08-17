@@ -1,43 +1,80 @@
-import { NgModule }       from '@angular/core';
-import { BrowserModule }  from '@angular/platform-browser';
-import { FormsModule }    from '@angular/forms';
+import { NgModule }      from '@angular/core';
+import { BrowserModule} from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
-import { Router } from '@angular/router';
-
-import { AppComponent }            from './app.component';
-import { AppRoutingModule }        from './app-routing.module';
-
-import { ComposeMessageComponent } from './component/message/compose-message.component';
-import { LoginRoutingModule }      from './login-routing.module';
-import { LoginComponent }          from './component/login/login.component';
-import { PageNotFoundComponent }   from './component/common/not-found.component';
-import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 
+
+//app
+import { appRoutes } from './app.routes';
+import { AppComponent }    from './app.component';
+import { AppService }   from './app.service';
+
+
+//toast
+import {ToastService} from './shared/toast/toast.service';
+import {ToastBoxComponent} from './shared/toast/toast-box.component';
+import {ToastComponent} from './shared/toast/toast.component';
+
+//http
+import { HttpService }   from './shared/http/http.service';
+
+
+//spin
+import { SpinComponent} from './shared/spin/spin.component';
+import { SpinService } from './shared/spin/spin.service';
+
+
+//modules
+import  { LoginModule }      from './login/login.module';
+import  { MainModule }       from './main/main.module';
+
+import {SelectivePreloadingStrategy} from "./selective-preloading-strategy";
+import {LoginService} from "./service/login.service";
+import {UserInfoService} from "./service/user-info.service";
+import {AuthGuard} from "./service/auth-guard.service";
+import {ApiRequestService} from "./service/api-request.service";
+import {AppConfig} from "./app-config";
+
+
+
+
+
+
+/**
+ * app模块
+ */
 @NgModule({
   imports: [
+    appRoutes,
     BrowserModule,
-    FormsModule,
-    LoginRoutingModule,
-    AppRoutingModule,
     BrowserAnimationsModule,
     NgbModule.forRoot(),
+    MainModule,
+    LoginModule
   ],
   declarations: [
     AppComponent,
-    ComposeMessageComponent,
-    LoginComponent,
-    PageNotFoundComponent,
+    ToastBoxComponent,
+    ToastComponent,
+    SpinComponent
   ],
   providers: [
+    AppService,
+    ToastService,
+    HttpService,
+    SpinService,
+    SelectivePreloadingStrategy,
+    LoginService,
+    UserInfoService,
+    AuthGuard,
+    ApiRequestService,
+    AppConfig
+  ],
+  exports:[
+    ToastBoxComponent,
+    SpinComponent
   ],
   bootstrap: [ AppComponent ]
 })
-
-export class AppModule {
-  // Diagnostic only: inspect router configuration
-  constructor(router: Router) {
-    console.log('Routes: ', JSON.stringify(router.config, undefined, 2));
-  }
-}
+export class AppModule {}
