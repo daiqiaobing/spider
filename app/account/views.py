@@ -1,20 +1,43 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
+import json
 
-from django.shortcuts import render
-
-# Create your views here.
-from account.models import Account
+from django.contrib import auth
+from django.contrib.auth import authenticate, logout
+from django.http import JsonResponse
 
 
 def login(request):
-    if request.method == 'POST':
-        username = request.get['username']
-        password = request.get['password']
-        user = Account.objects.get(username=username, password=password)
-        if user == None:
-            return render(request, 'dist/index.html', locals())
-        else:
-            return render(request, 'dist/index.html', locals())
-    else:
-        return render(request, 'dist/index.html', locals())
+    if request.method == "POST":
+        account = json.loads(request.body)
+        username = account.get('username', '')
+        password = account.get('password', '')
+        user = login_result(request=request, username=username, password=password)
+    return JsonResponse(user)
+
+
+def login_result(request, username, password):
+    user = {}
+    try:
+        account = authenticate(request=request, username=username, password=password)
+        if account is not None:
+            auth.login(request, account)
+            user['username'] = username
+            user['success'] = 'true'
+    except Exception as e:
+        e.args
+        print e.message
+        user['success'] = 'false'
+    return user
+
+
+def user_logout(request):
+    info = {}
+    try:
+        info['success'] = 'true'
+        logout(request=request)
+    except Exception as e:
+        info['success'] = 'false'
+    return JsonResponse(info)
+
+
+

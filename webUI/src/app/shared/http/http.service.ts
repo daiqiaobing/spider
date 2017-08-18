@@ -7,6 +7,7 @@ import {
 } from '@angular/http';
 import { Utils } from "../util/utils";
 import { SpinService } from '../spin/spin.service';
+import {AppConfig} from "../../app-config";
 
 
 /**
@@ -15,10 +16,14 @@ import { SpinService } from '../spin/spin.service';
 @Injectable()
 export class HttpService {
 
-    constructor(private http: Http,private spinService:SpinService) {}
+    constructor(
+      private http: Http,
+      private spinService:SpinService,
+      private appConfig:AppConfig
+    ) {}
 
     public request(url: string, options: RequestOptionsArgs, success: Function, error: Function): any {
-        url = Utils.replaceUrl(url);
+        url = Utils.replaceUrl(this.appConfig.baseApiPath+url);
         this.spinService.spin(true);
         this.http.request(url, options).subscribe(res => {
             this.spinService.spin(false);
@@ -137,5 +142,5 @@ export class HttpService {
 
     }
 
-   
+
 }

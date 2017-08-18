@@ -5,8 +5,8 @@ import { HttpService } from '../shared/http/http.service';
 
 import { ToastService } from '../shared/toast/toast.service';
 import { ToastConfig, ToastType } from '../shared/toast/toast-model';
-import {LoginService} from "../service/login.service";
 import {UserInfoService} from "../service/user-info.service";
+import {Http} from "@angular/http";
 
 
 @Component({
@@ -14,7 +14,8 @@ import {UserInfoService} from "../service/user-info.service";
   templateUrl: './login.component.html'
 })
 export class LoginComponent implements OnInit {
-
+    username:string;
+    password:string;
   /**
    * 初始化
    */
@@ -22,7 +23,13 @@ export class LoginComponent implements OnInit {
 
   }
 
-  constructor(private router: Router, private toastService: ToastService,private loginService:UserInfoService, private httpService: HttpService) { }
+  constructor(
+              private router: Router,
+              private toastService: ToastService,
+              private userService:UserInfoService,
+              private httpService: HttpService,
+              private http:Http
+  ) { }
 
 
 
@@ -31,26 +38,24 @@ export class LoginComponent implements OnInit {
    */
   login() {
     let that = this;
-    /*this.httpService.post("http://192.168.1.107:8080/cjhme/user/login.jhtml", {
-      userName: 'admin',
-      password: '123456'
+
+    this.httpService.post("login", {
+      username: this.username,
+      password: this.password
     }, function (successful, data, res) {
-      console.info(successful);
-      console.info(data);
-      console.info(res);
-      if (successful) {
+      if (data.success == 'true') {
         const toastCfg = new ToastConfig(ToastType.SUCCESS, '', '百变小咖，登录成功!', 3000);
+        that.userService.storeUserInfo(data.username);
         that.toastService.toast(toastCfg);
         that.router.navigate(['/app/home']);
+      }else {
+         const toastCfg = new ToastConfig(ToastType.INFO, '','登陆失败，请重新登陆！', 3000);
+         that.toastService.toast(toastCfg);
       }
     }, function (successful, msg, err) {
        const toastCfg = new ToastConfig(ToastType.ERROR, '', msg, 3000);
        that.toastService.toast(toastCfg);
-    });*/
-    this.loginService.storeUserInfo("user");
-    const toastCfg = new ToastConfig(ToastType.SUCCESS, '', '百变小咖，登录成功!', 2000);
-    this.toastService.toast(toastCfg);
-    this.router.navigate(['/app/home']);
+    });
   }
 
 

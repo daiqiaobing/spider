@@ -9,6 +9,10 @@ import  { ConfirmConfig} from '../shared/modal/modal-model';
 
 import  { AvatarCropperComponent} from './avatar-cropper.component';
 import  { AppService }   from '../app.service';
+import {UserInfoService} from "../service/user-info.service";
+import {HttpService} from "../shared/http/http.service";
+import {ToastService} from "../shared/toast/toast.service";
+import {ToastConfig, ToastType} from "../shared/toast/toast-model";
 
 /**
  * 主体组件
@@ -31,7 +35,7 @@ export class MainComponent implements OnInit {
   //用户数据
    mainData: MainData = {
     userData:{
-     userName: "百变小咖",
+     userName: "小明",
      userAvatar:"./assets/img/user-header.png",
      mobilePhone:"1895090***2",
      email:"332557712@qq.com",
@@ -44,14 +48,16 @@ export class MainComponent implements OnInit {
       "keyWord":"demo",
       "icon": 'fa-wrench',
       "isExpend": false,
-      "children": [{
+      "children": [
+        {
         "id": "2",
         "parentId": "1",
         "name": "消息框",
         "keyWord":"mtk",
         "icon": 'fa-columns',
         "url": '/app/demo/toastDemo'
-      }, {
+      },
+        {
         "id": "3",
         "parentId": "1",
         "name": "模态框",
@@ -72,7 +78,8 @@ export class MainComponent implements OnInit {
         "keyWord":"selectDemo",
         "icon": 'fa-circle',
         "url": '/app/demo/selectDemo'
-      }, {
+      },
+        {
         "id": "6",
         "parentId": "1",
         "name": "层次图",
@@ -293,13 +300,37 @@ export class MainComponent implements OnInit {
         "icon": "fa-file",
         "url": "systemLog"
       }]
-    }]
+    },
+      {
+      "id": "34",
+      "parentId": "0",
+      "name": "菜单管理",
+      "keyWord":"txgl",
+      "icon": "fa-cube",
+      "children": [{
+        "id": "35",
+        "parentId": "34",
+        "name": "添加菜单",
+        "keyWord":"xtrz",
+        "icon": "fa-file",
+        "url": "systemLog"
+      }]
+    }
+    ]
   }
 
   title:string="首页";
- 
 
-  constructor(private router: Router,private modalService: ModalService,private ngbModalService: NgbModal,private appService:AppService) {
+
+  constructor(
+    private router: Router,
+    private modalService: ModalService,
+    private ngbModalService: NgbModal,
+    private appService:AppService,
+    private userService:UserInfoService,
+    private httpService: HttpService,
+    private toastService: ToastService,
+  ) {
         this.appService.titleEventEmitter.subscribe((value:string)=>{
             if(value){
                this.title=value;
@@ -312,6 +343,7 @@ export class MainComponent implements OnInit {
    * 初始化
    */
   ngOnInit() {
+    this.mainData.userData.userName = this.userService.getName();
   }
 
   /**
@@ -339,12 +371,12 @@ export class MainComponent implements OnInit {
    */
   avatarReplacement(){
       this.ngbModalService.open(AvatarCropperComponent,{size:'lg',backdrop:'static',keyboard:false}).result.then((result) => {
-        
+
       }, (reason) => {
-        
+
       });
   }
- 
+
 
   /**
    * 退出系统
@@ -359,6 +391,21 @@ export class MainComponent implements OnInit {
       });
   }
 
+  logout(){
+    let that = this;
+
+    this.httpService.post("loginout", {  }, function (successful, data, res) {
+        const toastCfg = new ToastConfig(ToastType.SUCCESS, '', '退出成功，请重新登陆', 3000);
+        that.toastService.toast(toastCfg);
+        that.userService.removeUserInfo();
+        that.router.navigate(['/login'])
+    }, function (successful, msg, err) {
+       const toastCfg = new ToastConfig(ToastType.ERROR, '', msg, 3000);
+       that.toastService.toast(toastCfg);
+       that.router.navigate(['/login'])
+    });
+
+  }
 
 
 

@@ -35,6 +35,7 @@ import {UserInfoService} from "./service/user-info.service";
 import {AuthGuard} from "./service/auth-guard.service";
 import {ApiRequestService} from "./service/api-request.service";
 import {AppConfig} from "./app-config";
+import {PageNotFoundComponent} from "./component/404/page-not-found.component";
 
 
 
@@ -57,7 +58,8 @@ import {AppConfig} from "./app-config";
     AppComponent,
     ToastBoxComponent,
     ToastComponent,
-    SpinComponent
+    SpinComponent,
+    PageNotFoundComponent
   ],
   providers: [
     AppService,

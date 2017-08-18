@@ -2,16 +2,14 @@
 from django.contrib.auth.backends import ModelBackend
 from django.db.models import Q
 
-from auth.models import Account
+from account.models import Account
 
 
 class AuthBackend(ModelBackend):
-
     def authenticate(self, username=None, password=None, **kwargs):
         try:
-            user = Account.objects.get(Q(username = username)|Q(email=username))
-            if user.check_password(password):
+            user = Account.objects.get(Q(username=username) | Q(email=username))
+            if user.password == password:
                 return user
         except Exception as e:
-            return None;
-
+            return None

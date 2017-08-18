@@ -62,6 +62,10 @@ export class UserInfoService {
         return "no-user";
     }
 
+    getName():string{
+      return this.storage.getItem(this.currentUserKey);
+    }
+
     getStoredToken():string|null {
         let userObj:UserInStorage = this.getUserInfo();
         if (userObj !== null){

@@ -17,13 +17,15 @@ Including another URLconf
 from functools import partial
 
 from django.conf.urls import url
-from django.contrib import admin
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.views import logout
+
 from account.login_filter import required
 from account.views import login
+from common.views import home
 
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
+    url(r'home', home, name='home')
 ]
 
 urlpatterns = required(
@@ -33,4 +35,5 @@ urlpatterns = required(
 
 urlpatterns += [
     url(r'^login', login, name='login'),
+    url(r'^logout', logout, name='logout'),
 ]
